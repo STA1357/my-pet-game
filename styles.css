@@ -1,0 +1,51 @@
+*{
+    box-sizing: border-box;
+}
+
+body{
+    display: flex;
+    background-color: #293658;
+    flex-direction: column;
+    align-items: center;
+}
+
+.header{
+    
+    text-align: center;
+    width: 300px;
+    padding: 5px;
+    border: 1px solid black;
+    background-color: rgb(114, 127, 248);
+    border-radius: 5px;
+}
+
+canvas{
+    display: block;
+    cursor: none;
+    border: 10px solid transparent;
+    border-image: url(./border2.png)40 round;
+}
+
+.asteroidImg{
+    display: block;
+    
+}
+
+.asteroid{
+    display: none;
+    -webkit-animation: rotation 4s infinite linear;
+}
+@-webkit-keyframes rotation {
+    from {
+            -webkit-transform: rotate(0deg);
+    }
+    to {
+            -webkit-transform: rotate(359deg);
+    }
+}
+
+.border{
+    display: none;
+}
+
+
