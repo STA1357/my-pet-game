@@ -34,6 +34,8 @@ let expling = new Image();
 expling.src = './NicePng_realistic-fire-png_276260.png';
 let shipExplosion = new Image();
 shipExplosion.src = './NicePng_realistic-fire-png_276260.png';
+let shipBurnPng = new Image();
+shipBurnPng.src = './Burn.png';
 
 let spaceShipWidth = 100;
 let spaceShipHeight = 50;
@@ -42,6 +44,7 @@ let transportHeight = 150;
 
 let score = 0;
 let missAsterScore = 0;
+let transportLives = 6;
 let lives = 3;
 let x = 0;
 
@@ -108,6 +111,7 @@ let timer = 0;
 let blasterFire = [];
 let expl = [];
 let shipExpl = [];
+let shipBurn = [];
 
 
 
@@ -201,6 +205,15 @@ function update(){
         shipExpl.splice(i,1);
     }
 
+    //анимация пожара
+    for (i in shipBurn) {
+        shipBurn[i].animx=shipBurn[i].animx+0.3;//+0.5 - скорость анимации
+        if(shipBurn[i].animx>7) {
+            shipBurn[i].animy++;
+            shipBurn[i].animx=0
+        }
+    }
+
     //Физика
     
     for(i in aster) {
@@ -218,6 +231,7 @@ function update(){
             && aster[i].y <= transport.y + transportHeight){
                 expl.push({x:aster[i].x-45, y:aster[i].y-45, animx:0, animy:2});
                 aster[i].del=1;
+                transportLives--;
             }
             
         if (
@@ -228,7 +242,8 @@ function update(){
             
         ) {
             
-            shipExpl.push({x:spaceShip.x-45, y:spaceShip.y-45, animx:0, animy:2});
+            shipExpl.push({x:spaceShip.x-45, y:spaceShip.y-45, animx:2, animy:2});
+            
             aster[i].del=1;
             lives--;
             if(lives == 0){
@@ -236,7 +251,7 @@ function update(){
                 setTimeout(() => {
                     alert('Game Over')
                     document.location.reload()
-                }, 1200)
+                }, 2000)
             }
         
         }
@@ -296,7 +311,7 @@ for(i in aster2) {
             setTimeout(() => {
                 alert('Game Over')
                 document.location.reload()
-            }, 1200)
+            }, 2000)
         }
         
     }
@@ -356,7 +371,7 @@ for(i in aster3) {
             setTimeout(() => {
                 alert('Game Over')
                 document.location.reload()
-            }, 1200)
+            }, 2000)
         }
         
     }
@@ -413,6 +428,12 @@ function render(){
             transport.x = -300
         }, 500)
     }
+    if(transportLives <= 0){
+        shipExpl.push({x:transport.x-45, y:transport.y-45, animx:0, animy:2});
+        transport.x = -300;
+        transport.x++;   
+    }
+    
     
 
     for(i in aster){
@@ -439,6 +460,12 @@ function render(){
     for(i in shipExpl){
         context.drawImage(shipExplosion,128*Math.floor(shipExpl[i].animx), 128*Math.floor(shipExpl[i].animy), 128, 128, shipExpl[i].x, shipExpl[i].y, 200, 200);
     }
+
+    //рисуем пожар
+    for(i in shipBurn){
+        context.drawImage(shipBurnPng,128*Math.floor(shipBurn[i].animx), 128*Math.floor(shipBurn[i].animy), 128, 128, shipBurn[i].x, shipBurn[i].y, 100, 100);
+    }
+    
 }
 
 
